@@ -1,10 +1,10 @@
 # Beholders
 
-A lightweight implementation of observer pattern for rails active record models.
+A lightweight implementation of [observer pattern] for rails active record models.
 
-Originally developed as an alternative to rails-observers with the goal of:
+Originally developed as an alternative to [rails-observers] with the goal of:
 - Better support for current versions of rails.
-- Encourage the 'single responsibility principle' in design- beholders are explicitly added by name to a model, rather than inferred based on its name. This lets you have multiple observers each named for their specific domain.
+- Encourage the [single responsibility principle] in design- beholders are explicitly added by name to a model, rather than inferred based on its name. This lets you have multiple observers each named for their specific domain.
 
 ## Installation
 
@@ -28,11 +28,11 @@ Getting started example:
 
 ```ruby
 # Observers are added to a model like:
-class DangerousBeast < ApplicationRecord
+class Train < ApplicationRecord
 
   observed_by "TimelineManager"
-  observed_by "WarehouseAnnouncer"
-  observed_by "Planner::CacheManager"
+  observed_by "PlatformAnnouncer"
+  observed_by "Planner::RisksCacher"
 
 end
 
@@ -47,11 +47,11 @@ class TimelineManager < Beholder
 
 end
 
-class WarehouseAnnouncer < Beholder
+class PlatformAnnouncer < Beholder
   
-  def after_update_commit(model)
-    return unless model.previous_changes.include? :arrival_date
-    SomeJob.perform_later
+  def after_update_commit(subject)
+    return unless subject.previous_changes.include? :arrival_time
+    # broadcast an event to your action cable channel
   end
 
 end
@@ -60,7 +60,7 @@ end
 
 ActiveRecord::Base class methods:
 
-Class name as passed as a string to prevent redundant autoloading.
+Class name are passed as a string to prevent redundant autoloading.
 ```ruby
 observed_by "BeholderClassName"
 ```
@@ -68,8 +68,8 @@ observed_by "BeholderClassName"
 Callback hooks:
 
 Define as public methods with a single argument (model instance) in your beholders to trigger during that callback stage of the model.
-
 ```ruby
+after_save
 after_create
 after_update
 after_destroy
@@ -80,15 +80,18 @@ after_update_commit
 after_destroy_commit
 ```
 
-Beholders can be disabled/enabled individually and globally, which is probably most useful for test isolation. The following class methods are available:
+Beholders are enabled by default and can be disabled/enabled individually and globally, which is probably most useful for test isolation. The following class methods are available:
 
 ```ruby
-MyBeholder.disable! # disable MyBeholder
-MyBeholder.enabled! # enable MyBeholder
+class MyBeholder < Beholder; end
+
+MyBeholder.disable!  # disable MyBeholder
+MyBeholder.disabled? # true
+MyBeholder.enable!   # enable MyBeholder
+MyBeholder.disabled? # false
 
 Beholder.disable_all! # disable Beholder and all descendant classes
 Beholder.enable_all!  # enable Beholder and all descendant classes
-
 ```
 
 ## Development
@@ -108,3 +111,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 ## Code of Conduct
 
 Everyone interacting in the Beholders project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/Bogadon/beholders/blob/master/CODE_OF_CONDUCT.md).
+
+[observer pattern]: https://en.wikipedia.org/wiki/Observer_pattern
+[rails-observers]: https://github.com/rails/rails-observers
+[single responsibility principle]: https://en.wikipedia.org/wiki/Single_responsibility_principle
