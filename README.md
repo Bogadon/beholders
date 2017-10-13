@@ -1,6 +1,6 @@
 # Beholders
 
-A lightweight implementation of [observer pattern] for rails active record models.
+A lightweight implementation of the [observer pattern] for rails active record models.
 
 Originally developed as an alternative to [rails-observers] with the goal of:
 - Better support for current versions of rails.
@@ -29,38 +29,32 @@ Getting started example:
 ```ruby
 # Observers are added to a model like:
 class Train < ApplicationRecord
-
   observed_by "TimelineManager"
   observed_by "PlatformAnnouncer"
   observed_by "Planner::RisksCacher"
-
 end
 
 # Your observers inherit from Beholder
 class TimelineManager < Beholder
-  
   # Define public methods for each callback hook you want to trigger on
   # They should accept 1 arg, the instance of an observed model
   def after_create_commit(subject)
     TimelineEntry.create!(subject: subject)
   end
-
 end
 
 class PlatformAnnouncer < Beholder
-  
   def after_update_commit(subject)
     return unless subject.previous_changes.include? :arrival_time
     # broadcast an event to your action cable channel
   end
-
 end
 
 ```
 
 ActiveRecord::Base class methods:
 
-Class name are passed as a string to prevent redundant autoloading.
+Class names are passed as a string to prevent redundant autoloading.
 ```ruby
 observed_by "BeholderClassName"
 ```
