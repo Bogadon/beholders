@@ -12,18 +12,25 @@ module Beholders
   end
 
   module CallbackIntegration
+    BEHOLDER_CALLBACKS = %i[
+      after_save
+      after_create
+      after_update
+      after_destroy
+      after_commit
+      after_create_commit
+      after_update_commit
+      after_destroy_commit
+    ].freeze
+
     # Pass class name as string not class, for same reason rails 5.1 deprecates
     # the latter:
     # https://github.com/rails/rails/blob/5-1-stable/activerecord/CHANGELOG.md
     def observed_by(observer)
       instance_eval do
-        after_create -> { observer.constantize.trigger(:after_create, self) }
-        after_update -> { observer.constantize.trigger(:after_update, self) }
-        after_destroy -> { observer.constantize.trigger(:after_destroy, self) }
-        after_commit -> { observer.constantize.trigger(:after_commit, self) }
-        after_create_commit -> { observer.constantize.trigger(:after_create_commit, self) }
-        after_update_commit -> { observer.constantize.trigger(:after_update_commit, self) }
-        after_destroy_commit -> { observer.constantize.trigger(:after_destroy_commit, self) }
+        BEHOLDER_CALLBACKS.each do |cb|
+          send cb, -> { observer.constantize.trigger(cb, self) }
+        end
       end
     end
   end
