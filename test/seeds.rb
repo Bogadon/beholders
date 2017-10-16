@@ -26,7 +26,8 @@ class Pickpocket < Beholder
 end
 
 class Necromancer < Beholder
-  def after_destroy_commit(subject)
-    Creature.create(name: "Undead #{subject.name}")
+  def after_commit(subject)
+    # rails 5+ has after_destroy_commit
+    Creature.create(name: "Undead #{subject.name}") if subject.destroyed?
   end
 end
