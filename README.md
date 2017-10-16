@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Bogadon/beholders.svg?branch=master)](https://travis-ci.org/Bogadon/beholders)
+
 # Beholders
 
 A lightweight implementation of the [observer pattern] for rails active record models.
