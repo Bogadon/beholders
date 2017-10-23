@@ -8,6 +8,8 @@ Originally developed as an alternative to [rails-observers] with the goal of:
 - Better support for current versions of rails.
 - Encourage the [single responsibility principle] in design- beholders are explicitly added by name to a model, rather than inferred based on its name. This lets you have multiple observers each named for their specific domain.
 
+Supports rails 4.0+ (tested up to 5.1).
+
 ## Installation
 
 Add this line to your application's Gemfile:
