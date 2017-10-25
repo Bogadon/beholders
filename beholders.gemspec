@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Lightweight SRP encouraging observers for rails}
   spec.description   = %q{Add single responsibility observers to your rails models}
-  spec.homepage      = "https://www.github.com/Bogadon"
+  spec.homepage      = "https://www.github.com/Bogadon/beholders"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
