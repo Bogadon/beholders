@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Bogadon/beholders.svg?branch=master)](https://travis-ci.org/Bogadon/beholders)
+[![Build Status](https://travis-ci.org/Bogadon/beholders.svg?branch=master)](https://travis-ci.org/Bogadon/beholders) [![Maintainability](https://api.codeclimate.com/v1/badges/68dc74886f0f54f3be5e/maintainability)](https://codeclimate.com/github/Bogadon/beholders/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/68dc74886f0f54f3be5e/test_coverage)](https://codeclimate.com/github/Bogadon/beholders/test_coverage)
 
 # Beholders
 
